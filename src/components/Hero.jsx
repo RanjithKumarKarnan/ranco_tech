@@ -163,7 +163,7 @@ const HeroSection = () => {
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 1 }}
               className="absolute -bottom-4 -right-4 z-10 bg-[#0D5F53] text-white rounded-2xl shadow-xl px-4 py-3"
             >
-              <p className="text-2xl font-bold leading-none">500+</p>
+              <p className="text-2xl font-bold leading-none">50+</p>
               <p className="text-xs text-emerald-200 mt-0.5">Projects Delivered</p>
             </motion.div>
 
