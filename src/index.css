@@ -1,46 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @import "tailwindcss";
 
-
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+body {
+    font-family: "Inter", sans-serif;
 }
-
-.animate-marquee {
-  display: flex;
-  gap: 20px; 
-  animation: marquee 20s linear infinite; /* Adjust the time to change scrolling speed */
-}
-
-.perspective {
-  perspective: 1500px;
-}
-
-.transform-style {
-  transform-style: preserve-3d;
-}
-
-.backface-hidden {
-  backface-visibility: hidden;
-}
-
-.rotate-y-180 {
-  transform: rotateY(180deg);
-}
-
-.group:hover .group-hover\\:rotate-y-180 {
-  transform: rotateY(180deg);
-}
-
-
-
-
