@@ -107,7 +107,7 @@ const HeroSection = () => {
             </RouterLink>
 
             <RouterLink
-              to="/ServicesPage"
+              to="/servicespage"
               className="inline-flex items-center justify-center gap-2 bg-white border-2 border-[#0D5F53] text-[#0D5F53] hover:bg-[#0D5F53] hover:text-white py-3.5 px-8 rounded-full text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5"
             >
               Explore Services

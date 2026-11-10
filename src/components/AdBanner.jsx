@@ -1,44 +1,75 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { X } from 'lucide-react';
 
+const SHOW_AFTER_MS = 20000; // show 20s after the visitor arrives
+const HIDE_AFTER_MS = 10000; // auto-hide after 10s
+const SEEN_KEY = 'rancotech:adSeen';
+
+// Storage can throw in private mode or when site data is blocked
+const hasSeenAd = () => {
+  try {
+    return sessionStorage.getItem(SEEN_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+
+const markAdSeen = () => {
+  try {
+    sessionStorage.setItem(SEEN_KEY, '1');
+  } catch {
+    // ignore
+  }
+};
+
 const AdBanner = () => {
-  const [showAd, setShowAd] = useState(false);
+  const { pathname } = useLocation();
+  const [isDue, setIsDue] = useState(false);
+  const [isDone, setIsDone] = useState(hasSeenAd);
 
   useEffect(() => {
-    const handlePageLoad = () => {
-      const timer = setTimeout(() => {
-        setShowAd(true);
-        const hideTimer = setTimeout(() => setShowAd(false), 10000); // hide after 10s
-        return () => clearTimeout(hideTimer);
-      }, 20000); // show 20s after load
+    if (isDone) return;
+    const timer = setTimeout(() => setIsDue(true), SHOW_AFTER_MS);
+    return () => clearTimeout(timer);
+  }, [isDone]);
 
-      return () => clearTimeout(timer);
+  // Never interrupt someone who is filling in the contact form
+  const showAd = isDue && !isDone && pathname !== '/contact';
+
+  useEffect(() => {
+    if (!showAd) return;
+    markAdSeen();
+    const timer = setTimeout(() => setIsDone(true), HIDE_AFTER_MS);
+    const onKeyDown = (e) => e.key === 'Escape' && setIsDone(true);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('keydown', onKeyDown);
     };
-
-    if (document.readyState === 'complete') {
-      handlePageLoad();
-    } else {
-      window.addEventListener('load', handlePageLoad);
-    }
-
-    return () => window.removeEventListener('load', handlePageLoad);
-  }, []);
+  }, [showAd]);
 
   if (!showAd) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4">
-      <div className="relative w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl animate-fadeIn">
+    <div
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4"
+      onClick={() => setIsDone(true)}
+    >
+      <div
+        className="relative w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl animate-fadeIn"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Banner Image */}
         <img
-          src="/RancoBanner.png" 
-          alt="Ad Banner"
+          src="/RancoBanner.png"
+          alt="RanCoTech — web and app development services"
           className="w-full h-auto object-cover rounded-2xl"
         />
 
         {/* Close Button */}
         <button
-          onClick={() => setShowAd(false)}
+          onClick={() => setIsDone(true)}
           className="absolute top-4 right-4 bg-black/70 text-white hover:bg-red-600 p-2 rounded-full transition duration-300"
           aria-label="Close advertisement"
         >
@@ -50,6 +81,3 @@ const AdBanner = () => {
 };
 
 export default AdBanner;
-
-
-

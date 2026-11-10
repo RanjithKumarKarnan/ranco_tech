@@ -38,63 +38,63 @@ const menuData = [
   {
     title: "Website Development",
     items: [
-      { icon: <Globe color="#FF6F00" />, label: "Custom Business Websites", desc: "Tailored websites for your business", to: "/ServicesPage#custom-business" },
-      { icon: <ShoppingCart color="#FF6F00" />, label: "E-commerce Websites", desc: "Shopify, WooCommerce, etc.", to: "/ServicesPage#ecommerce" },
-      { icon: <PenTool color="#FF6F00" />, label: "Portfolio Websites", desc: "Showcase your work", to: "/ServicesPage#portfolio" },
-      { icon: <Layers color="#FF6F00" />, label: "Landing Pages", desc: "High-converting pages", to: "/ServicesPage#landing-pages" },
-      { icon: <Brush color="#FF6F00" />, label: "Redesign & UI Upgrades", desc: "Modernize old designs", to: "/ServicesPage#redesign" },
+      { icon: <Globe color="#FF6F00" />, label: "Custom Business Websites", desc: "Tailored websites for your business", to: "/servicespage#basic-website" },
+      { icon: <ShoppingCart color="#FF6F00" />, label: "E-commerce Websites", desc: "Shopify, WooCommerce, etc.", to: "/servicespage#ecommerce" },
+      { icon: <PenTool color="#FF6F00" />, label: "Portfolio Websites", desc: "Showcase your work", to: "/servicespage#basic-website" },
+      { icon: <Layers color="#FF6F00" />, label: "Landing Pages", desc: "High-converting pages", to: "/servicespage#basic-website" },
+      { icon: <Brush color="#FF6F00" />, label: "Redesign & UI Upgrades", desc: "Modernize old designs", to: "/servicespage#ui-ux" },
     ],
   },
   {
     title: "Mobile App Development",
     items: [
-      { icon: <Smartphone color="#FF6F00" />, label: "Cross-Platform Apps", desc: "iOS & Android", to: "/ServicesPage#cross-platform" },
-      { icon: <Code2 color="#FF6F00" />, label: "Custom App Solutions", desc: "Tailored builds", to: "/ServicesPage#custom-apps" },
-      { icon: <Figma color="#FF6F00" />, label: "UI/UX Design", desc: "Clean interfaces", to: "/ServicesPage#mobile-uiux" },
-      { icon: <Zap color="#FF6F00" />, label: "Performance Optimization", desc: "Speed & smooth UX", to: "/ServicesPage#mobile-performance" },
+      { icon: <Smartphone color="#FF6F00" />, label: "Cross-Platform Apps", desc: "iOS & Android", to: "/servicespage#mobile-apps" },
+      { icon: <Code2 color="#FF6F00" />, label: "Custom App Solutions", desc: "Tailored builds", to: "/servicespage#mobile-apps" },
+      { icon: <Figma color="#FF6F00" />, label: "UI/UX Design", desc: "Clean interfaces", to: "/servicespage#ui-ux" },
+      { icon: <Zap color="#FF6F00" />, label: "Performance Optimization", desc: "Speed & smooth UX", to: "/servicespage#performance" },
     ],
   },
   {
     title: "IT & Software Solutions",
     items: [
-      { icon: <Settings color="#FF6F00" />, label: "Enterprise Development", desc: "Scalable apps", to: "/ServicesPage#enterprise" },
-      { icon: <Code2 color="#FF6F00" />, label: "Custom Software", desc: "Fully customized", to: "/ServicesPage#custom-software" },
-      { icon: <Layers color="#FF6F00" />, label: "Admin Dashboards", desc: "Modern tools", to: "/ServicesPage#dashboards" },
-      { icon: <Server color="#FF6F00" />, label: "CRM & ERP Systems", desc: "Manage better", to: "/ServicesPage#crm-erp" },
+      { icon: <Settings color="#FF6F00" />, label: "Enterprise Development", desc: "Scalable apps", to: "/servicespage#enterprise" },
+      { icon: <Code2 color="#FF6F00" />, label: "Custom Software", desc: "Fully customized", to: "/servicespage#custom-web-app" },
+      { icon: <Layers color="#FF6F00" />, label: "Admin Dashboards", desc: "Modern tools", to: "/servicespage#custom-web-app" },
+      { icon: <Server color="#FF6F00" />, label: "CRM & ERP Systems", desc: "Manage better", to: "/servicespage#enterprise" },
     ],
   },
   {
     title: "UI/UX Design",
     items: [
-      { icon: <Figma color="#FF6F00" />, label: "Prototyping", desc: "Figma flows", to: "/ServicesPage#prototyping" },
-      { icon: <Brush color="#FF6F00" />, label: "Web & App UI/UX", desc: "User-friendly", to: "/ServicesPage#uiux" },
-      { icon: <PenTool color="#FF6F00" />, label: "Branding & Logo", desc: "Visual identity", to: "/ServicesPage#branding" },
+      { icon: <Figma color="#FF6F00" />, label: "Prototyping", desc: "Figma flows", to: "/servicespage#ui-ux" },
+      { icon: <Brush color="#FF6F00" />, label: "Web & App UI/UX", desc: "User-friendly", to: "/servicespage#ui-ux" },
+      { icon: <PenTool color="#FF6F00" />, label: "Branding & Logo", desc: "Visual identity", to: "/servicespage#logo" },
     ],
   },
   {
     title: "Hosting & Domain Services",
     items: [
-      { icon: <Globe color="#FF6F00" />, label: "Domain Management", desc: "Domain registration & renewal", to: "/ServicesPage#domain" },
-      { icon: <Server color="#FF6F00" />, label: "Web Hosting", desc: "Shared, VPS, Dedicated", to: "/ServicesPage#hosting" },
-      { icon: <ShieldCheck color="#FF6F00" />, label: "SSL Setup", desc: "Secure your site", to: "/ServicesPage#ssl" },
-      { icon: <Mail color="#FF6F00" />, label: "Email Hosting", desc: "Business emails", to: "/ServicesPage#email" },
-      { icon: <Layers color="#FF6F00" />, label: "Website Migration", desc: "Seamless transfers", to: "/ServicesPage#migration" },
+      { icon: <Globe color="#FF6F00" />, label: "Domain Management", desc: "Domain registration & renewal", to: "/servicespage#domain-hosting" },
+      { icon: <Server color="#FF6F00" />, label: "Web Hosting", desc: "Shared, VPS, Dedicated", to: "/servicespage#domain-hosting" },
+      { icon: <ShieldCheck color="#FF6F00" />, label: "SSL Setup", desc: "Secure your site", to: "/servicespage#ssl" },
+      { icon: <Mail color="#FF6F00" />, label: "Email Hosting", desc: "Business emails", to: "/servicespage#domain-hosting" },
+      { icon: <Layers color="#FF6F00" />, label: "Website Migration", desc: "Seamless transfers", to: "/servicespage#domain-hosting" },
     ],
   },
   {
     title: "Digital Marketing & SEO",
     items: [
-      { icon: <Search color="#FF6F00" />, label: "SEO", desc: "Improve rankings", to: "/ServicesPage#seo" },
-      { icon: <LineChart color="#FF6F00" />, label: "Performance Optimization", desc: "Better insights", to: "/ServicesPage#performance" },
-      { icon: <Zap color="#FF6F00" />, label: "Speed & Core Web Vitals", desc: "Faster load times", to: "/ServicesPage#speed" },
+      { icon: <Search color="#FF6F00" />, label: "SEO", desc: "Improve rankings", to: "/servicespage#seo" },
+      { icon: <LineChart color="#FF6F00" />, label: "Performance Optimization", desc: "Better insights", to: "/servicespage#analytics" },
+      { icon: <Zap color="#FF6F00" />, label: "Speed & Core Web Vitals", desc: "Faster load times", to: "/servicespage#performance" },
     ],
   },
   {
     title: "Consulting & IT Support",
     items: [
-      { icon: <LifeBuoy color="#FF6F00" />, label: "IT Consulting", desc: "Expert advice", to: "/ServicesPage#consulting" },
-      { icon: <Settings color="#FF6F00" />, label: "Maintenance", desc: "Web & App upkeep", to: "/ServicesPage#maintenance" },
-      { icon: <ShieldCheck color="#FF6F00" />, label: "Troubleshooting", desc: "Fix software issues", to: "/ServicesPage#troubleshooting" },
+      { icon: <LifeBuoy color="#FF6F00" />, label: "IT Consulting", desc: "Expert advice", to: "/servicespage#consulting" },
+      { icon: <Settings color="#FF6F00" />, label: "Maintenance", desc: "Web & App upkeep", to: "/servicespage#maintenance" },
+      { icon: <ShieldCheck color="#FF6F00" />, label: "Troubleshooting", desc: "Fix software issues", to: "/servicespage#consulting" },
     ],
   },
 ];
@@ -133,9 +133,9 @@ const Header = () => {
                   <button className="hover:text-[#FF6F00]">Services</button>
                 </div>
                 {desktopDropdownOpen && (
-                  <div className="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[1300px] z-50">
+                  <div className="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[min(1300px,calc(100vw-2rem))] z-50">
                     <div className="absolute -top-4 left-0 w-full h-4"></div>
-                    <div className="bg-white shadow-2xl rounded-xl p-6 grid grid-cols-5 gap-6 max-h-full overflow-y-hidden">
+                    <div className="bg-white shadow-2xl rounded-xl p-6 grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-h-[calc(100vh-88px)] overflow-y-auto">
                       {menuData.map((section, i) => (
                         <DropdownSection key={i} title={section.title} items={section.items} onItemClick={handleItemClick} />
                       ))}

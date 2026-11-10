@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { submitLead } from "../lib/submitLead";
 import {
   Globe,
   Smartphone,
@@ -8,11 +9,55 @@ import {
   ShieldCheck,
   Search,
   LifeBuoy,
-  Facebook,
-  Twitter,
   Linkedin,
   Instagram,
 } from "lucide-react";
+
+const NewsletterForm = () => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      await submitLead({ email, source: "newsletter" }, "New Newsletter Subscriber — RanCoTech Website");
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return <p className="text-sm text-emerald-200">Thanks for subscribing! We'll be in touch.</p>;
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <input
+        type="email"
+        name="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter your email"
+        aria-label="Email address"
+        className="w-full bg-[#1B8579] placeholder-gray-300 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00]"
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="bg-[#FF6F00] hover:bg-orange-600 disabled:opacity-60 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200"
+      >
+        {status === "loading" ? "Subscribing..." : "Subscribe"}
+      </button>
+      {status === "error" && (
+        <p className="text-xs text-orange-200">Something went wrong. Please try again or email info@rancotechnology.com.</p>
+      )}
+    </form>
+  );
+};
 
 const Footer = () => {
   const headerLinks = [
@@ -31,69 +76,69 @@ const Footer = () => {
       name: "Website Development",
       icon: <Globe size={16} />,
       items: [
-        { label: "Custom Business Websites", to: "/ServicesPage#custom-business" },
-        { label: "E-commerce Websites", to: "/ServicesPage#ecommerce" },
-        { label: "Portfolio Websites", to: "/ServicesPage#portfolio" },
-        { label: "Landing Pages", to: "/ServicesPage#landing-pages" },
-        { label: "Redesign & UI Upgrades", to: "/ServicesPage#redesign" },
+        { label: "Custom Business Websites", to: "/servicespage#basic-website" },
+        { label: "E-commerce Websites", to: "/servicespage#ecommerce" },
+        { label: "Portfolio Websites", to: "/servicespage#basic-website" },
+        { label: "Landing Pages", to: "/servicespage#basic-website" },
+        { label: "Redesign & UI Upgrades", to: "/servicespage#ui-ux" },
       ],
     },
     {
       name: "Hosting & Domain Services",
       icon: <ShieldCheck size={16} />,
       items: [
-        { label: "Domain Management", to: "/ServicesPage#domain" },
-        { label: "Web Hosting", to: "/ServicesPage#hosting" },
-        { label: "SSL Setup", to: "/ServicesPage#ssl" },
-        { label: "Email Hosting", to: "/ServicesPage#email" },
-        { label: "Website Migration", to: "/ServicesPage#migration" },
+        { label: "Domain Management", to: "/servicespage#domain-hosting" },
+        { label: "Web Hosting", to: "/servicespage#domain-hosting" },
+        { label: "SSL Setup", to: "/servicespage#ssl" },
+        { label: "Email Hosting", to: "/servicespage#domain-hosting" },
+        { label: "Website Migration", to: "/servicespage#domain-hosting" },
       ],
     },
     {
       name: "Mobile App Development",
       icon: <Smartphone size={16} />,
       items: [
-        { label: "Cross-Platform Apps", to: "/ServicesPage#cross-platform" },
-        { label: "Custom App Solutions", to: "/ServicesPage#custom-apps" },
-        { label: "UI/UX Design", to: "/ServicesPage#mobile-uiux" },
-        { label: "Performance Optimization", to: "/ServicesPage#mobile-performance" },
+        { label: "Cross-Platform Apps", to: "/servicespage#mobile-apps" },
+        { label: "Custom App Solutions", to: "/servicespage#mobile-apps" },
+        { label: "UI/UX Design", to: "/servicespage#ui-ux" },
+        { label: "Performance Optimization", to: "/servicespage#performance" },
       ],
     },
     {
       name: "Digital Marketing & SEO",
       icon: <Search size={16} />,
       items: [
-        { label: "SEO", to: "/ServicesPage#seo" },
-        { label: "Performance Optimization", to: "/ServicesPage#performance" },
-        { label: "Speed & Core Web Vitals", to: "/ServicesPage#speed" },
+        { label: "SEO", to: "/servicespage#seo" },
+        { label: "Performance Optimization", to: "/servicespage#analytics" },
+        { label: "Speed & Core Web Vitals", to: "/servicespage#performance" },
       ],
     },
     {
       name: "IT & Software Solutions",
       icon: <Server size={16} />,
       items: [
-        { label: "Enterprise Development", to: "/ServicesPage#enterprise" },
-        { label: "Custom Software", to: "/ServicesPage#custom-software" },
-        { label: "Admin Dashboards", to: "/ServicesPage#dashboards" },
-        { label: "CRM & ERP Systems", to: "/ServicesPage#crm-erp" },
+        { label: "Enterprise Development", to: "/servicespage#enterprise" },
+        { label: "Custom Software", to: "/servicespage#custom-web-app" },
+        { label: "Admin Dashboards", to: "/servicespage#custom-web-app" },
+        { label: "CRM & ERP Systems", to: "/servicespage#enterprise" },
       ],
     },
     {
       name: "Consulting & IT Support",
       icon: <LifeBuoy size={16} />,
       items: [
-        { label: "IT Consulting", to: "/ServicesPage#consulting" },
-        { label: "Maintenance", to: "/ServicesPage#maintenance" },
-        { label: "Troubleshooting", to: "/ServicesPage#troubleshooting" },
+        { label: "IT Consulting", to: "/servicespage#consulting" },
+        { label: "Maintenance", to: "/servicespage#maintenance" },
+        { label: "Troubleshooting", to: "/servicespage#consulting" },
       ],
     },
     {
       name: "UI/UX Design",
       icon: <Figma size={16} />,
       items: [
-        { label: "Prototyping", to: "/ServicesPage#prototyping" },
-        { label: "Web & App UI/UX", to: "/ServicesPage#uiux" },
-        { label: "Branding & Logo", to: "/ServicesPage#branding" },
+        { label: "Prototyping", to: "/servicespage#ui-ux" },
+        { label: "Web & App UI/UX", to: "/servicespage#ui-ux" },
+        { label: "Branding & Logo", to: "/servicespage#logo" },
       ],
     },
   ];
@@ -102,8 +147,7 @@ const Footer = () => {
     { label: 'About', to: '/about' },
     { label: 'Terms of Service', to: '/terms' },
     { label: 'Privacy Policy', to: '/privacy-policy' },
-    { label: 'Fiverr', to: 'https://www.fiverr.com/sellers/ranjithkumar31/' },
-    { label: 'Upwork', to: '' },
+    { label: 'Fiverr', href: 'https://www.fiverr.com/sellers/ranjithkumar31/' },
   ];
 
   const serviceBoxes = [[], [], [], []];
@@ -146,9 +190,15 @@ const Footer = () => {
           <ul className="space-y-2 text-sm text-gray-300">
             {companyLinks.map((link) => (
               <li key={link.label}>
-                <Link to={link.to} className="hover:text-[#FF6F00]">
-                  {link.label}
-                </Link>
+                {link.href ? (
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF6F00]">
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link to={link.to} className="hover:text-[#FF6F00]">
+                    {link.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -162,19 +212,7 @@ const Footer = () => {
             Subscribe to the Ranco Tech newsletter for the latest updates in technology,
             innovation, and digital transformation.
           </p>
-          <form className="flex flex-col gap-3">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full bg-[#1B8579] placeholder-gray-300 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00]"
-            />
-            <button
-              type="submit"
-              className="bg-[#FF6F00] hover:bg-orange-600 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200"
-            >
-              Subscribe
-            </button>
-          </form>
+          <NewsletterForm />
         </div>
       </div>
 
@@ -223,33 +261,19 @@ const Footer = () => {
           {/* Right Side*/}
           <div className="flex space-x-4">
             <a
-              href="https://www.facebook.com/YourPage"
+              href="https://www.linkedin.com/company/rancotechnology"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-[#1B8579] hover:text-white transition-all"
-            >
-              <Facebook size={18} />
-            </a>
-            <a
-              href="https://twitter.com/YourProfile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-[#1B8579] hover:text-white transition-all"
-            >
-              <Twitter size={18} />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/YourCompany"
-              target="_blank"
-              rel="noopener noreferrer"
+              aria-label="RanCoTech on LinkedIn"
               className="p-2 rounded-full hover:bg-[#1B8579] hover:text-white transition-all"
             >
               <Linkedin size={18} />
             </a>
             <a
-              href="https://www.instagram.com/ranco.tech?igsh=b3BreTIwdnhwdTU5"
+              href="https://www.instagram.com/ranco.tech"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="RanCoTech on Instagram"
               className="p-2 rounded-full hover:bg-[#1B8579] hover:text-white transition-all"
             >
               <Instagram size={18} />

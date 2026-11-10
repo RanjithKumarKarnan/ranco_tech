@@ -5,7 +5,7 @@ import {
   Phone, CreditCard, Globe, LayoutDashboard, ShoppingCart,
   Smartphone, Brush, Code2, Network, Gauge, Building2,
   SearchCheck, GlobeLock, BadgeDollarSign, Lock, BarChart,
-  MessageCircleMore, PenTool
+  MessageCircleMore, PenTool, LifeBuoy
 } from 'lucide-react'
 
 const allServices = [
@@ -20,7 +20,7 @@ const allServices = [
       'Social Media Links',
       'Delivery: 5 Days',
     ],
-    id: 'custom-business',
+    id: 'basic-website',
   },
   {
     name: 'Standard Website',
@@ -33,7 +33,7 @@ const allServices = [
       'SEO Optimization',
       'Delivery: 7 Days',
     ],
-    id: 'ecommerce',
+    id: 'standard-website',
   },
   {
     name: 'Premium Website',
@@ -46,7 +46,7 @@ const allServices = [
       'Admin Panel + SEO + Chat Support',
       'Delivery: 10–12 Days',
     ],
-    id: 'portfolio',
+    id: 'premium-website',
   },
   {
     name: 'E-commerce Website',
@@ -60,7 +60,7 @@ const allServices = [
       'Admin Dashboard + SEO',
       'Delivery: 10–14 Days',
     ],
-    id: 'landing-pages',
+    id: 'ecommerce',
   },
   {
     name: 'Mobile App Development',
@@ -72,7 +72,7 @@ const allServices = [
       'Admin Panel + Database',
       'Delivery: 2–4 Weeks',
     ],
-    id: 'redesign',
+    id: 'mobile-apps',
   },
   {
     name: 'UI/UX Design',
@@ -84,7 +84,7 @@ const allServices = [
       'User Flow & Experience Mapping',
       'Delivery: 7–10 Days',
     ],
-    id: 'cross-platform',
+    id: 'ui-ux',
   },
   {
     name: 'Custom Web Application',
@@ -96,7 +96,7 @@ const allServices = [
       'Scalable & Secure Architecture',
       'Delivery: 4–6 Weeks',
     ],
-    id: 'custom-apps',
+    id: 'custom-web-app',
   },
   {
     name: 'API Development & Integration',
@@ -108,7 +108,7 @@ const allServices = [
       'Custom API Solutions for Apps & Web',
       'Delivery: 5–7 Days',
     ],
-    id: 'mobile-uiux',
+    id: 'api',
   },
   {
     name: 'Performance Optimization',
@@ -120,7 +120,7 @@ const allServices = [
       'Security Enhancements',
       'Delivery: 5–7 Days',
     ],
-    id: 'mobile-performance',
+    id: 'performance',
   },
   {
     name: 'Enterprise Software Solutions',
@@ -145,41 +145,47 @@ const allServices = [
       'Monthly Performance Report',
       'Delivery: Ongoing / Monthly Plans Available',
     ],
-    id: 'custom-software',
+    id: 'seo',
   },
   {
     name: 'Domain & Hosting Setup',
     icon: GlobeLock,
     features: [],
-    id: 'dashboards',
+    id: 'domain-hosting',
   },
   {
     name: 'Logo Design',
     icon: PenTool,
     features: [],
-    id: 'crm-erp',
+    id: 'logo',
   },
   {
     name: 'SSL Setup',
     icon: Lock,
     features: [],
-    id: 'seo',
+    id: 'ssl',
   },
   {
     name: 'Monthly Website Maintenance',
     icon: BadgeDollarSign,
     features: [],
-    id: 'performance',
+    id: 'maintenance',
   },
   {
     name: 'Google Analytics & Tag Manager Integration',
     icon: BarChart,
     features: [],
-    id: 'speed',
+    id: 'analytics',
   },
   {
     name: 'WhatsApp Chat Integration',
     icon: MessageCircleMore,
+    features: [],
+    id: 'whatsapp',
+  },
+  {
+    name: 'IT Consulting & Troubleshooting',
+    icon: LifeBuoy,
     features: [],
     id: 'consulting',
   },
@@ -223,7 +229,6 @@ const ServicesPage = () => {
                     <Icon size={36} className="text-[#FF6F00]" />
                   </div>
                   <h4 className="text-xl font-bold text-[#0D5F53] mb-2">{service.name}</h4>
-                  <p className="text-sm font-semibold text-[#138074] mb-4">{service.price}</p>
 
                   {service.features.length > 0 ? (
                     <ul className="space-y-3 mb-4 text-left">

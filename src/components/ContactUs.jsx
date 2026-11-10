@@ -3,13 +3,8 @@
 import React, { useState } from 'react';
 import { Mail, MapPin, Phone, Linkedin, Instagram, Send, CheckCircle, Clock, Globe, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-// Web3Forms access key — sign up at https://web3forms.com with info@rancotechnology.com to get your key
-// Then replace the value below. Emails will arrive at info@rancotechnology.com instantly.
-const WEB3FORMS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
-
-const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbz0_QnjRGpJm3PtmZ2-nbp75H_Xqy_U-rss_7okFFiCmGEjLhAJpnu_c8-E-bTD49a2NQ/exec";
+import { Link as RouterLink } from 'react-router-dom';
+import { submitLead } from '../lib/submitLead';
 
 const services = [
   "Web Development",
@@ -44,6 +39,7 @@ const Contact = () => {
     name: '', email: '', mobile: '', service: '', budget: '', message: ''
   });
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
+  const [submittedEmail, setSubmittedEmail] = useState('');
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -54,28 +50,9 @@ const Contact = () => {
     setStatus('loading');
 
     try {
-      // 1. Send email via Web3Forms to info@rancotechnology.com
-      await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `New Lead from RanCoTech Website — ${formData.service}`,
-          from_name: formData.name,
-          name: formData.name,
-          email: formData.email,
-          mobile: formData.mobile,
-          service: formData.service,
-          budget: formData.budget,
-          message: formData.message || "No additional message.",
-        }),
-      });
+      await submitLead(formData, `New Lead from RanCoTech Website — ${formData.service}`);
 
-      // 2. Also save to Google Sheet (background, don't block UX)
-      const gfData = new FormData();
-      Object.entries(formData).forEach(([k, v]) => gfData.append(k, v));
-      fetch(GOOGLE_SHEET_URL, { method: "POST", body: gfData }).catch(() => {});
-
+      setSubmittedEmail(formData.email);
       setStatus('success');
       setFormData({ name: '', email: '', mobile: '', service: '', budget: '', message: '' });
     } catch {
@@ -167,7 +144,7 @@ const Contact = () => {
                   className="w-9 h-9 bg-[#F0F9F7] hover:bg-pink-500 hover:text-white text-[#0D5F53] rounded-lg flex items-center justify-center transition-all">
                   <Instagram size={16} />
                 </a>
-                <a href="https://wa.me/918778597451" target="_blank" rel="noreferrer"
+                <a href="https://wa.me/919361660714" target="_blank" rel="noreferrer"
                   className="w-9 h-9 bg-[#F0F9F7] hover:bg-green-500 hover:text-white text-[#0D5F53] rounded-lg flex items-center justify-center transition-all">
                   <MessageSquare size={16} />
                 </a>
@@ -199,7 +176,7 @@ const Contact = () => {
                   <CheckCircle size={32} className="text-emerald-500" />
                 </div>
                 <h3 className="text-2xl font-bold text-[#0D5F53] mb-3">Message Sent!</h3>
-                <p className="text-gray-500 mb-6">Thank you for reaching out. We'll get back to you at <strong>{formData.email || "your email"}</strong> within 2 hours.</p>
+                <p className="text-gray-500 mb-6">Thank you for reaching out. We'll get back to you at <strong>{submittedEmail || "your email"}</strong> within 2 hours.</p>
                 <button
                   onClick={() => setStatus('idle')}
                   className="bg-[#0D5F53] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#0a4c42] transition"
@@ -287,7 +264,9 @@ const Contact = () => {
                   )}
                 </button>
                 <p className="text-center text-xs text-gray-400">
-                  By submitting you agree to our privacy policy. We never share your data.
+                  By submitting you agree to our{' '}
+                  <RouterLink to="/privacy-policy" className="underline hover:text-[#0D5F53]">privacy policy</RouterLink>.
+                  We never sell your data.
                 </p>
               </form>
             )}

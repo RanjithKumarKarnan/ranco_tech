@@ -20,6 +20,9 @@ import WorldMap from './components/WorldMap';
 import ContactUs from './components/ContactUs';
 import AdBanner from './components/AdBanner';
 import FloatingButtons from './components/FloatingButtons';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
   return (
@@ -56,7 +59,9 @@ const App = () => {
           <Route path="testimonial" element={<Testimonial />} />
           <Route path="/servicespage" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactUs />} />
-
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
       <Footer />
