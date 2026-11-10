@@ -1,122 +1,41 @@
-'use client';
-import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { PageHero, Section } from '../components/ui';
+import { CtaBand, FaqList } from '../components/sections';
+import { faqs } from '../data/content';
+import { services } from '../data/services';
 
-const faqData = [
-  {
-    question: "What services does Ranco Tech offer?",
-    answer: `Ranco Tech provides end-to-end technology solutions including custom software
-    development, mobile and web application development, cloud infrastructure design
-    and deployment, AI/ML integration, and strategic IT consulting. We tailor every solution
-    to align with your business goals and operational needs.`,
-  },
-  {
-    question: "What industries do you work with?",
-    answer: `We serve clients across a wide range of industries such as healthcare, logistics, ecommerce, education, retail, and finance. Our adaptable tech stack and agile
-    approach make it easy to cater to the unique challenges of each sector.`,
-  },
-  {
-    question: "How does your development process work?",
-    answer: `Our process is built around agile principles and includes six core stages: discovery and
-    planning, UI/UX design, development, testing and quality assurance, deployment, and
-    ongoing support. This ensures a smooth, collaborative experience with regular
-    feedback loops and fast delivery.`,
-  },
-  {
-    question: "What technologies do you specialize in?",
-    answer: `Ranco Tech specializes in modern, scalable technologies. For frontend, we use
-    frameworks like React, Angular, and Vue.js. On the backend, we work with Node.js,
-    Django, and Laravel. Our mobile development includes Flutter, React Native, and Swift.
-    We're also experienced with cloud platforms such as AWS, Azure, and Google Cloud,
-    and we integrate AI/ML capabilities using Python, TensorFlow, and natural language
-    processing tools.`,
-  },
-  {
-    question: "Do you provide post-launch support?",
-    answer: `Yes, we offer comprehensive post-launch services including maintenance,
-    performance optimization, security updates, and feature scaling. Our goal is to be a
-    long-term technology partner, not just a one-time service provider.`,
-  },
-  {
-    question: "How long does a typical project take?",
-    answer: `Timelines vary depending on the project’s complexity. A simple mobile app might take
-    6–8 weeks, whereas more complex enterprise platforms can take 3–6 months or longer.
-    We provide detailed project timelines during the initial discovery phase to set clear
-    expectations.`,
-  },
-  {
-    question: "How do you ensure security and data protection?",
-    answer: `Security is integrated into every stage of our workflow. We follow industry best
-    practices like end-to-end encryption, secure coding standards, regular security audits,
-    and compliance with data protection regulations such as GDPR. Your data is always
-    protected with the highest level of care.`,
-  },
-  {
-    question: "What’s the cost of developing a custom solution?",
-    answer: `The cost of development depends on the size, scope, and complexity of the project. We
-    start with a consultation to understand your needs, then deliver a transparent,
-    customized proposal with a full breakdown of costs and timelines.`,
-  },
-];
+const FaqPage = () => (
+  <>
+    <PageHero
+      breadcrumbs={[{ label: 'FAQ' }]}
+      eyebrow="FAQ"
+      title="Frequently asked questions"
+      lead="Costs, timelines, technology, SEO and support — answers to the questions clients ask us most."
+    />
 
-const FAQPage = () => {
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-
-  const toggleAnswer = (index) => {
-    setSelectedQuestion(selectedQuestion === index ? null : index);
-  };
-
-  return (
-    <section
-      className="bg-gradient-to-br from-[#f4f9f9] to-[#e8f0f2] py-20 px-5 font-['Montserrat']"
-      id="faq"
-    >
-      <div className="max-w-7xl mx-auto text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold text-[#0D5F53] mb-4">
-          Frequently Asked Questions
-        </h2>
-        <p className="text-[#4A6D6F] text-base md:text-lg max-w-2xl mx-auto">
-          Find answers to some of the most common questions about our services and processes.
-        </p>
+    <Section>
+      <div className="grid gap-12 lg:grid-cols-[1.4fr_0.6fr]">
+        <FaqList items={faqs} />
+        <aside className="lg:sticky lg:top-28 lg:self-start">
+          <div className="rounded-2xl border border-ink-100 bg-ink-50 p-7">
+            <h2 className="text-lg font-bold">Questions about a specific service?</h2>
+            <p className="mt-2 text-[15px] text-ink-500">Each service page answers the questions specific to it.</p>
+            <ul className="mt-5 space-y-2">
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <Link to={`/services/${s.slug}`} className="text-[15px] font-medium text-brand-700 hover:text-brand-900">
+                    {s.name} →
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
       </div>
+    </Section>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        {/* Left - FAQ List */}
-        <div className="space-y-6">
-          {faqData.map((faq, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer"
-              onClick={() => toggleAnswer(index)}
-            >
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold text-[#0D5F53]">{faq.question}</h3>
-                <span
-                  className={`transform transition-transform duration-300 ${
-                    selectedQuestion === index ? "rotate-180" : ""
-                  }`}
-                >
-                  <ChevronDown size={20} className="text-[#FF6F00]" />
-                </span>
-              </div>
-              {selectedQuestion === index && (
-                <p className="mt-4 text-sm text-[#425E57]">{faq.answer}</p>
-              )}
-            </div>
-          ))}
-        </div>
+    <CtaBand title="Still have questions?" text="Message us on WhatsApp or send the contact form — we usually reply within 2 hours on business days." />
+  </>
+);
 
-        {/* Right - Image */}
-        <div className="flex justify-center items-center">
-          <img
-            src="/faq.gif"
-            alt="FAQ Illustration"
-            className="w-full max-w-lg" 
-          />
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default FAQPage;
+export default FaqPage;

@@ -1,8 +1,41 @@
+# Pre-rendered pages live at /about.html, /services/web-development.html etc.
+# and are served at clean URLs (/about, /services/web-development).
+DirectorySlash Off
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
-RewriteRule ^index\.html$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
+
+# Old URLs from the previous site
+RewriteRule ^servicespage/?$ /services [R=301,L,NC]
+RewriteRule ^testimonial/?$ /testimonials [R=301,L]
+RewriteRule ^team/?$ /about [R=301,L]
+
+# /about.html → /about
+RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[\s?]
+RewriteRule ^ /%1 [R=301,L,NE]
+
+# /about/ → /about (also /services/, which is both a folder and a page)
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f [OR]
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# Serve the pre-rendered page
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+</IfModule>
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType text/html "access plus 0 seconds"
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+ExpiresByType text/javascript "access plus 1 year"
+ExpiresByType image/webp "access plus 1 month"
+ExpiresByType image/png "access plus 1 month"
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml application/xml text/xml
 </IfModule>

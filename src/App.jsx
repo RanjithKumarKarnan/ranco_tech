@@ -1,73 +1,40 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import AboutPage from './pages/AboutPage';
-import Features from './components/Features';
-import TechExpertise from './components/TechExpertise';
-import Services from './components/Services';
-import Projects from './components/Projects';
-import Stats from './components/Stats';
-import Footer from './components/Footer';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
-import FAQPage from './pages/FaqPage';
-import OurTeam from './components/OurTeam';
-import FAQ from './components/Faq';
-import Testimonial from './components/Testimonial';
-import ScrollToTop from './components/ScrollToTop'; 
-import OurClients from './components/OurClients';
-import WorldMap from './components/WorldMap';
-import ContactUs from './components/ContactUs';
-import AdBanner from './components/AdBanner';
-import FloatingButtons from './components/FloatingButtons';
+import ServiceDetailPage from './pages/ServiceDetailPage';
+import ProjectsPage from './pages/ProjectsPage';
+import AboutPage from './pages/AboutPage';
+import TestimonialsPage from './pages/TestimonialsPage';
+import FaqPage from './pages/FaqPage';
+import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-const App = () => {
-  return (
-    <Router>
-      <Header />
-      <ScrollToTop />
-      <AdBanner />
-      <div className="">
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              <>
-                <Hero />
-                <About />
-                <Features/>
-                <TechExpertise/>
-                <Services />
-                <Projects />
-                {/* <OurTeam /> */}
-                <FAQ />
-                <OurClients/>
-                <WorldMap />
-                <Testimonial />
-                <ContactUs/>
-              </>
-            } 
-          />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="services" element={<Services />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="team" element={<OurTeam />} />
-          <Route path="faq" element={<FAQPage />} />
-          <Route path="testimonial" element={<Testimonial />} />
-          <Route path="/servicespage" element={<ServicesPage />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </div>
-      <Footer />
-      <FloatingButtons/>
-    </Router>
-  );
-};
+// Every path here (except redirects and *) must also be listed in prerenderRoutes in src/seo/meta.js
+const App = () => (
+  <Routes>
+    <Route element={<Layout />}>
+      <Route index element={<HomePage />} />
+      <Route path="services" element={<ServicesPage />} />
+      <Route path="services/:slug" element={<ServiceDetailPage />} />
+      <Route path="projects" element={<ProjectsPage />} />
+      <Route path="about" element={<AboutPage />} />
+      <Route path="testimonials" element={<TestimonialsPage />} />
+      <Route path="faq" element={<FaqPage />} />
+      <Route path="contact" element={<ContactPage />} />
+      <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+      <Route path="terms" element={<TermsPage />} />
+
+      {/* Old URLs (also 301-redirected in public/.htaccess) */}
+      <Route path="servicespage" element={<Navigate to="/services" replace />} />
+      <Route path="testimonial" element={<Navigate to="/testimonials" replace />} />
+      <Route path="team" element={<Navigate to="/about" replace />} />
+
+      <Route path="*" element={<NotFoundPage />} />
+    </Route>
+  </Routes>
+);
 
 export default App;

@@ -1,288 +1,158 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { submitLead } from "../lib/submitLead";
-import {
-  Globe,
-  Smartphone,
-  Server,
-  Figma,
-  ShieldCheck,
-  Search,
-  LifeBuoy,
-  Linkedin,
-  Instagram,
-} from "lucide-react";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Linkedin, Instagram, Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { services } from '../data/services';
+import { SITE } from '../data/site';
+import { submitLead } from '../lib/submitLead';
+import { Container } from './ui';
+import { Logo } from './Header';
+
+const companyLinks = [
+  { label: 'About us', to: '/about' },
+  { label: 'Projects', to: '/projects' },
+  { label: 'Client reviews', to: '/testimonials' },
+  { label: 'FAQ', to: '/faq' },
+  { label: 'Contact', to: '/contact' },
+];
+
+const legalLinks = [
+  { label: 'Privacy Policy', to: '/privacy-policy' },
+  { label: 'Terms of Service', to: '/terms' },
+];
 
 const NewsletterForm = () => {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("loading");
+    setStatus('loading');
     try {
-      await submitLead({ email, source: "newsletter" }, "New Newsletter Subscriber — RanCoTech Website");
-      setStatus("success");
-      setEmail("");
+      await submitLead({ email, source: 'newsletter' }, 'New Newsletter Subscriber — RanCoTech Website');
+      setStatus('success');
+      setEmail('');
     } catch {
-      setStatus("error");
+      setStatus('error');
     }
   };
 
-  if (status === "success") {
-    return <p className="text-sm text-emerald-200">Thanks for subscribing! We'll be in touch.</p>;
+  if (status === 'success') {
+    return <p className="text-sm text-brand-200">Thanks for subscribing — we’ll be in touch.</p>;
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <input
-        type="email"
-        name="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-        aria-label="Email address"
-        className="w-full bg-[#1B8579] placeholder-gray-300 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00]"
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="bg-[#FF6F00] hover:bg-orange-600 disabled:opacity-60 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200"
-      >
-        {status === "loading" ? "Subscribing..." : "Subscribe"}
-      </button>
-      {status === "error" && (
-        <p className="text-xs text-orange-200">Something went wrong. Please try again or email info@rancotechnology.com.</p>
+    <form onSubmit={handleSubmit} className="mt-4">
+      <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+      <div className="flex gap-2">
+        <input
+          id="newsletter-email"
+          type="email"
+          name="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@company.com"
+          className="min-w-0 flex-1 rounded-full border-0 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-brand-200/60 ring-1 ring-inset ring-white/15 focus:ring-2 focus:ring-accent-500 focus:outline-none"
+        />
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="rounded-full bg-accent-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-600 disabled:opacity-60"
+        >
+          {status === 'loading' ? 'Sending…' : 'Subscribe'}
+        </button>
+      </div>
+      {status === 'error' && (
+        <p className="mt-2 text-xs text-accent-100">Something went wrong. Please try again or email {SITE.email}.</p>
       )}
     </form>
   );
 };
 
-const Footer = () => {
-  const headerLinks = [
-    { label: 'Home', to: '/' },
-    { label: 'About', to: '/about' },
-    { label: 'Services', to: '/services' },
-    { label: 'Projects', to: '/projects' },
-    { label: 'Our Team', to: '/team' },
-    { label: 'FAQ', to: '/faq' },
-    { label: 'Testimonial', to: '/testimonial' },
-    { label: 'Contact', to: '/contact' },
-  ];
+const FooterHeading = ({ children }) => (
+  <h2 className="mb-4 text-sm font-semibold uppercase tracking-[0.12em] text-white">{children}</h2>
+);
 
-  const services = [
-    {
-      name: "Website Development",
-      icon: <Globe size={16} />,
-      items: [
-        { label: "Custom Business Websites", to: "/servicespage#basic-website" },
-        { label: "E-commerce Websites", to: "/servicespage#ecommerce" },
-        { label: "Portfolio Websites", to: "/servicespage#basic-website" },
-        { label: "Landing Pages", to: "/servicespage#basic-website" },
-        { label: "Redesign & UI Upgrades", to: "/servicespage#ui-ux" },
-      ],
-    },
-    {
-      name: "Hosting & Domain Services",
-      icon: <ShieldCheck size={16} />,
-      items: [
-        { label: "Domain Management", to: "/servicespage#domain-hosting" },
-        { label: "Web Hosting", to: "/servicespage#domain-hosting" },
-        { label: "SSL Setup", to: "/servicespage#ssl" },
-        { label: "Email Hosting", to: "/servicespage#domain-hosting" },
-        { label: "Website Migration", to: "/servicespage#domain-hosting" },
-      ],
-    },
-    {
-      name: "Mobile App Development",
-      icon: <Smartphone size={16} />,
-      items: [
-        { label: "Cross-Platform Apps", to: "/servicespage#mobile-apps" },
-        { label: "Custom App Solutions", to: "/servicespage#mobile-apps" },
-        { label: "UI/UX Design", to: "/servicespage#ui-ux" },
-        { label: "Performance Optimization", to: "/servicespage#performance" },
-      ],
-    },
-    {
-      name: "Digital Marketing & SEO",
-      icon: <Search size={16} />,
-      items: [
-        { label: "SEO", to: "/servicespage#seo" },
-        { label: "Performance Optimization", to: "/servicespage#analytics" },
-        { label: "Speed & Core Web Vitals", to: "/servicespage#performance" },
-      ],
-    },
-    {
-      name: "IT & Software Solutions",
-      icon: <Server size={16} />,
-      items: [
-        { label: "Enterprise Development", to: "/servicespage#enterprise" },
-        { label: "Custom Software", to: "/servicespage#custom-web-app" },
-        { label: "Admin Dashboards", to: "/servicespage#custom-web-app" },
-        { label: "CRM & ERP Systems", to: "/servicespage#enterprise" },
-      ],
-    },
-    {
-      name: "Consulting & IT Support",
-      icon: <LifeBuoy size={16} />,
-      items: [
-        { label: "IT Consulting", to: "/servicespage#consulting" },
-        { label: "Maintenance", to: "/servicespage#maintenance" },
-        { label: "Troubleshooting", to: "/servicespage#consulting" },
-      ],
-    },
-    {
-      name: "UI/UX Design",
-      icon: <Figma size={16} />,
-      items: [
-        { label: "Prototyping", to: "/servicespage#ui-ux" },
-        { label: "Web & App UI/UX", to: "/servicespage#ui-ux" },
-        { label: "Branding & Logo", to: "/servicespage#logo" },
-      ],
-    },
-  ];
-
-  const companyLinks = [
-    { label: 'About', to: '/about' },
-    { label: 'Terms of Service', to: '/terms' },
-    { label: 'Privacy Policy', to: '/privacy-policy' },
-    { label: 'Fiverr', href: 'https://www.fiverr.com/sellers/ranjithkumar31/' },
-  ];
-
-  const serviceBoxes = [[], [], [], []];
-  services.forEach((item, index) => {
-    serviceBoxes[index % 4].push(item);
-  });
-
-  return (
-    <footer className="bg-[#0D5F53] text-[#FBFBFD] font-[Montserrat] pt-14 pb-8">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 items-start">
-        {/* Column 0: Brand Description */}
-        <div>
-          <div className="flex items-center mb-3 space-x-0 text-white text-lg font-bold tracking-wider">
-            <span className="text-[#FF6F00]">RanCo</span>
-            <span>Tech</span>
-          </div>
-          <p className="text-sm text-gray-300">
-            Empowering businesses with digital solutions that drive growth, innovation,
-            and impact. Your tech partner for the future.
-          </p>
-        </div>
-
-        {/* Column 1: Menu */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Menu</h3>
-          <ul className="space-y-2 text-sm text-gray-300">
-            {headerLinks.map((link) => (
-              <li key={link.label}>
-                <Link to={link.to} className="hover:text-[#FF6F00]">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Column 2: Company */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Company</h3>
-          <ul className="space-y-2 text-sm text-gray-300">
-            {companyLinks.map((link) => (
-              <li key={link.label}>
-                {link.href ? (
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF6F00]">
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link to={link.to} className="hover:text-[#FF6F00]">
-                    {link.label}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Column 3: Newsletter */}
-        <div className="col-span-1">
-          <h3 className="text-lg font-semibold mb-3">Newsletter</h3>
-          <h6 className="text-sm mb-3">Stay Ahead of the Curve</h6>
-          <p className="text-sm text-gray-300 mb-3">
-            Subscribe to the Ranco Tech newsletter for the latest updates in technology,
-            innovation, and digital transformation.
-          </p>
-          <NewsletterForm />
-        </div>
+const Footer = () => (
+  <footer className="bg-brand-950 text-brand-100/80">
+    <Container className="grid gap-12 py-16 lg:grid-cols-12 lg:py-20">
+      <div className="lg:col-span-4">
+        <Logo light />
+        <p className="mt-4 max-w-sm text-sm leading-relaxed">
+          Web, mobile app and software development company in {SITE.city}, India — building fast, search-friendly digital
+          products for businesses worldwide since {SITE.foundingYear}.
+        </p>
+        <ul className="mt-6 space-y-3 text-sm">
+          <li className="flex items-center gap-3">
+            <Mail size={16} className="text-brand-300" aria-hidden="true" />
+            <a href={`mailto:${SITE.email}`} className="hover:text-white">{SITE.email}</a>
+          </li>
+          <li className="flex items-center gap-3">
+            <Phone size={16} className="text-brand-300" aria-hidden="true" />
+            <a href={SITE.phoneHref} className="hover:text-white">{SITE.phone}</a>
+          </li>
+          <li className="flex items-center gap-3">
+            <MapPin size={16} className="text-brand-300" aria-hidden="true" />
+            {SITE.city}, {SITE.region}, {SITE.country}
+          </li>
+          <li className="flex items-center gap-3">
+            <Clock size={16} className="text-brand-300" aria-hidden="true" />
+            {SITE.hours}
+          </li>
+        </ul>
       </div>
 
-      {/* Services Section Title */}
-      <div className="max-w-7xl mx-auto px-6 mt-16">
-        <h3 className="text-lg font-semibold mb-6 text-white">Services</h3>
+      <nav aria-label="Services" className="lg:col-span-3">
+        <FooterHeading>Services</FooterHeading>
+        <ul className="space-y-2.5 text-sm">
+          {services.map((service) => (
+            <li key={service.slug}>
+              <Link to={`/services/${service.slug}`} className="hover:text-white">{service.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav aria-label="Company" className="lg:col-span-2">
+        <FooterHeading>Company</FooterHeading>
+        <ul className="space-y-2.5 text-sm">
+          {companyLinks.map((link) => (
+            <li key={link.to}>
+              <Link to={link.to} className="hover:text-white">{link.label}</Link>
+            </li>
+          ))}
+          <li>
+            <a href={SITE.socials.fiverr} target="_blank" rel="noopener noreferrer" className="hover:text-white">Hire us on Fiverr</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div className="lg:col-span-3">
+        <FooterHeading>Stay updated</FooterHeading>
+        <p className="text-sm leading-relaxed">Occasional tips on websites, apps and growing your business online. No spam.</p>
+        <NewsletterForm />
       </div>
+    </Container>
 
-      {/* Services Section */}
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {serviceBoxes.map((group, idx) => (
-          <div key={idx} className="space-y-6">
-            {group.map((service, index) => (
-              <div key={index}>
-                <h4 className="flex items-center text-sm font-semibold mb-2 space-x-2">
-                  <span>{service.icon}</span>
-                  <span>{service.name}</span>
-                </h4>
-                <ul className="text-sm text-gray-300 space-y-1 ml-4">
-                  {service.items.map((item, i) => (
-                    <li key={i}>
-                      <Link to={item.to} className="hover:text-[#FF6F00]">• {item.label}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {/* Bottom Section */}
-      <div className="mt-12 border-t border-[#1B8579] pt-6 px-6 max-w-7xl mx-auto text-sm text-gray-400">
-        <div className="flex flex-col md:flex-row md:justify-between items-center text-center md:text-left gap-3">
-          {/* Left Side */}
-          <div className="flex flex-col items-center md:flex-row md:items-center md:space-x-2">
-            <div className="flex space-x-0 text-white text-base md:text-lg font-bold tracking-wider">
-              <span className="text-[#FF6F00]">RanCo</span>
-              <span className="text-white">Tech</span>
-            </div>
-            <span className="text-sm font-normal text-gray-400 md:inline block">
-              All rights reserved. &copy; {new Date().getFullYear()}
-            </span>
-          </div>
-
-          {/* Right Side*/}
-          <div className="flex space-x-4">
-            <a
-              href="https://www.linkedin.com/company/rancotechnology"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="RanCoTech on LinkedIn"
-              className="p-2 rounded-full hover:bg-[#1B8579] hover:text-white transition-all"
-            >
-              <Linkedin size={18} />
+    <div className="border-t border-white/10">
+      <Container className="flex flex-col items-center justify-between gap-4 py-6 pb-24 text-sm sm:flex-row sm:pb-6 sm:pr-24 lg:pr-24">
+        <p>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
+        <div className="flex items-center gap-6">
+          {legalLinks.map((link) => (
+            <Link key={link.to} to={link.to} className="hover:text-white">{link.label}</Link>
+          ))}
+          <div className="flex gap-2">
+            <a href={SITE.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="RanCoTech on LinkedIn" className="rounded-full p-2 hover:bg-white/10 hover:text-white">
+              <Linkedin size={18} aria-hidden="true" />
             </a>
-            <a
-              href="https://www.instagram.com/ranco.tech"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="RanCoTech on Instagram"
-              className="p-2 rounded-full hover:bg-[#1B8579] hover:text-white transition-all"
-            >
-              <Instagram size={18} />
+            <a href={SITE.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="RanCoTech on Instagram" className="rounded-full p-2 hover:bg-white/10 hover:text-white">
+              <Instagram size={18} aria-hidden="true" />
             </a>
           </div>
         </div>
-      </div>
-    </footer>
-  );
-};
+      </Container>
+    </div>
+  </footer>
+);
 
 export default Footer;

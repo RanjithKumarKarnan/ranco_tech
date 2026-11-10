@@ -1,46 +1,99 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
+  /* Brand teal (#0D5F53 = brand-700) */
+  --color-brand-50: #eef8f5;
+  --color-brand-100: #d6eee7;
+  --color-brand-200: #aedcd0;
+  --color-brand-300: #7cc3b3;
+  --color-brand-400: #46a28f;
+  --color-brand-500: #238573;
+  --color-brand-600: #136c5e;
+  --color-brand-700: #0d5f53;
+  --color-brand-800: #0c4a42;
+  --color-brand-900: #0a3a34;
+  --color-brand-950: #05211e;
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
+  /* Accent orange (#FF6F00) — used sparingly for primary calls to action */
+  --color-accent-50: #fff5ec;
+  --color-accent-100: #ffe6d1;
+  --color-accent-500: #ff6f00;
+  --color-accent-600: #e86200;
+  --color-accent-700: #c25200;
+
+  /* Neutral ink */
+  --color-ink-900: #0f1f1c;
+  --color-ink-700: #33433f;
+  --color-ink-500: #5f6f6b;
+  --color-ink-300: #a9b5b2;
+  --color-ink-200: #d9e1df;
+  --color-ink-100: #edf1f0;
+  --color-ink-50: #f6f8f7;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
-  100% {
-    transform: translateX(-100%);
+
+  body {
+    @apply bg-white font-sans text-ink-700 antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply text-ink-900 tracking-tight;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    @apply bg-brand-100 text-brand-900;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
   }
 }
 
-.animate-marquee {
-  display: flex;
-  gap: 20px; 
-  animation: marquee 20s linear infinite; /* Adjust the time to change scrolling speed */
+/* Scroll-in reveal. Content stays visible without JS (the .js class is set by an inline script). */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-.perspective {
-  perspective: 1500px;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
-.transform-style {
-  transform-style: preserve-3d;
+@keyframes logo-scroll {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
-.backface-hidden {
-  backface-visibility: hidden;
+.animate-logo-scroll {
+  animation: logo-scroll 40s linear infinite;
 }
 
-.rotate-y-180 {
-  transform: rotateY(180deg);
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(13 95 83 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(13 95 83 / 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
-
-.group:hover .group-hover\\:rotate-y-180 {
-  transform: rotateY(180deg);
-}
-
-
-
-

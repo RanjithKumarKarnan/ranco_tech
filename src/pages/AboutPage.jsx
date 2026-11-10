@@ -1,127 +1,108 @@
-import { motion, useInView, useAnimation } from "framer-motion";
-import { useRef, useEffect } from "react";
-import Stats from "../components/Stats"; 
-import TechExpertise from "../components/TechExpertise";
-import  Features  from "../components/Features"; 
+import { Target, Eye } from 'lucide-react';
+import { IconTile, PageHero, Section, SectionHeader } from '../components/ui';
+import { CtaBand, ProcessSteps, StatsRow } from '../components/sections';
+import { SITE } from '../data/site';
 
-const AboutPage = () => {
-  const imageRef = useRef(null);
-  const isInView = useInView(imageRef, { once: true, margin: "0px 0px -100px 0px" });
-  const controls = useAnimation();
+const values = [
+  { title: 'Honest communication', text: 'Clear scopes, realistic timelines and straight answers — including when something isn’t a good fit.' },
+  { title: 'Craft and quality', text: 'Clean code, thoughtful design and testing on real devices before anything goes live.' },
+  { title: 'Speed without shortcuts', text: 'Fast turnaround and quick replies, without cutting corners on the details that matter.' },
+  { title: 'Long-term partnership', text: 'Many clients come back for their second and third project. We’re here after launch, too.' },
+];
 
-  useEffect(() => {
-    if (isInView) {
-      controls.start({ opacity: 1, scale: 1 });
-    }
-  }, [isInView, controls]);
+const stack = [
+  { group: 'Web', items: ['React', 'Next.js', 'Node.js', 'Laravel', 'Django', 'WordPress', 'Tailwind CSS'] },
+  { group: 'Mobile', items: ['Flutter', 'Dart', 'React Native'] },
+  { group: 'Data', items: ['MySQL', 'PostgreSQL', 'MongoDB', 'Firebase'] },
+  { group: 'Cloud & DevOps', items: ['AWS', 'Google Cloud', 'Docker', 'Nginx'] },
+];
 
-  return (
-    <section id="about" className="py-20 bg-gradient-to-r from-[#F3F9F4] to-[#EAF4F1] text-[#0D5F53] font-[Montserrat]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 grid md:grid-cols-2 gap-12 items-center">
-        
-        {/* Left Image */}
-        <div className="flex justify-center items-center">
-          <motion.img
-            ref={imageRef}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={controls}
-            transition={{ duration: 1 }}
-            src="/about.gif"
-            alt="About Us"
-            className="w-full max-w-[500px] md:max-w-[600px] h-auto object-contain"
-          />
+const AboutPage = () => (
+  <>
+    <PageHero
+      breadcrumbs={[{ label: 'About' }]}
+      eyebrow="About RanCoTech"
+      title="A software company from Trichy, building for the world"
+      lead={`Since ${SITE.foundingYear}, we’ve helped startups, schools, healthcare institutions and growing businesses in 11+ countries launch websites, apps and software that work.`}
+    />
+
+    <Section>
+      <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+        <div className="reveal">
+          <h2 className="text-3xl font-bold leading-tight sm:text-4xl">Our story</h2>
+          <div className="mt-6 space-y-5 text-[17px] leading-relaxed text-ink-500">
+            <p>
+              RanCoTech — short for Ranco Technology — started in {SITE.foundingYear} in {SITE.city}, Tamil Nadu, with a
+              simple idea: businesses everywhere deserve world-class digital products, built by people who genuinely care
+              about the result.
+            </p>
+            <p>
+              We began by building websites for international clients on Fiverr, where a 5.0 rating and a long list of repeat
+              customers proved what we believed: clear communication and dependable delivery matter as much as good code.
+            </p>
+            <p>
+              Today our team of developers and designers delivers websites, e-commerce stores, mobile apps and custom software
+              for clients across India, Europe, North America and Asia — with the same personal attention on every project.
+            </p>
+          </div>
         </div>
-
-        {/* Right Content */}
-        <div>
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl font-bold mb-6 text-[#0D5F53] leading-tight"
-          >
-            About RanCoTech
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 1 }}
-            viewport={{ once: true }}
-            className="text-[#425E57] mb-4 text-base sm:text-lg leading-relaxed"
-          >
-            RanCoTech is a leading Software Development company based in India that provides
-            enterprise application solutions, web application, IT consulting & mobile app
-            development services to clients across the globe. We offer an extensive range of
-            innovative software development services to our customers using Open Source,
-            Native & hybrid mobile applications, and front-end .
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 1 }}
-            viewport={{ once: true }}
-            className="text-[#425E57] mb-4 text-base sm:text-lg leading-relaxed"
-          >
-            We ensure your success by delivering business-specific solutions as every organization
-            has unique requirements. Our strength lies in the blend of highly technical resources
-            and focused operation with a team work environment. We believe in high quality of work
-            ethics and on-schedule delivery with cost-effective solutions that lead you to the edge
-            of success.
-          </motion.p>
+        <div className="grid gap-5 self-start sm:grid-cols-2 lg:grid-cols-1">
+          <div className="reveal rounded-2xl border border-ink-100 p-7">
+            <IconTile icon={Target} className="!bg-accent-50 !text-accent-600 !ring-accent-100" />
+            <h3 className="mt-5 text-lg font-semibold">Our mission</h3>
+            <p className="mt-2 text-[15px] leading-relaxed text-ink-500">
+              To empower businesses worldwide by bridging the gap between bold ideas and powerful technology — delivering
+              solutions that create real, measurable impact.
+            </p>
+          </div>
+          <div className="reveal rounded-2xl border border-ink-100 p-7">
+            <IconTile icon={Eye} />
+            <h3 className="mt-5 text-lg font-semibold">Our vision</h3>
+            <p className="mt-2 text-[15px] leading-relaxed text-ink-500">
+              To become the most trusted global technology partner for growing businesses — known for quality, speed, and the
+              ability to turn ambitious ideas into reality.
+            </p>
+          </div>
         </div>
       </div>
+      <StatsRow className="mt-20" />
+    </Section>
 
-      {/* Mission & Vision Cards */}
-      <div className="mt-16 max-w-5xl mx-auto px-6 sm:px-10">
-        <div className="grid sm:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 1 }}
-            viewport={{ once: true }}
-            className="bg-white border border-[#0D5F53]/10 p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="text-[#FF6F00] text-2xl">
-                <i className="fas fa-bullseye"></i>
-              </div>
-              <h3 className="text-xl font-semibold text-[#138074]">Our Mission</h3>
-            </div>
-            <p className="text-[#425E57] text-sm">
-              To empower businesses by bridging the gap between ideas and technology.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 1 }}
-            viewport={{ once: true }}
-            className="bg-white border border-[#0D5F53]/10 p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="text-[#FF6F00] text-2xl">
-                <i className="fas fa-globe-americas"></i>
-              </div>
-              <h3 className="text-xl font-semibold text-[#138074]">Our Vision</h3>
-            </div>
-            <p className="text-[#425E57] text-sm">
-              To be a global leader in transformative technology services that drive real impact.
-            </p>
-          </motion.div>
-        </div>
-
+    <Section tone="muted">
+      <SectionHeader eyebrow="What we value" title="How we work with every client" />
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {values.map((value) => (
+          <div key={value.title} className="reveal rounded-2xl border border-ink-100 bg-white p-7">
+            <h3 className="text-lg font-semibold">{value.title}</h3>
+            <p className="mt-2 text-[15px] leading-relaxed text-ink-500">{value.text}</p>
+          </div>
+        ))}
       </div>
+    </Section>
 
-      <Features/>
-      <TechExpertise withBackground={false}/>
-      <Stats withBackground={false}/>
+    <Section>
+      <SectionHeader eyebrow="Technology" title="Modern, proven technology" lead="We pick the right tools for each project — never the other way round." />
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {stack.map(({ group, items }) => (
+          <div key={group} className="reveal rounded-2xl border border-ink-100 p-7">
+            <h3 className="text-base font-semibold">{group}</h3>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {items.map((item) => (
+                <li key={item} className="rounded-full bg-ink-50 px-3 py-1 text-sm text-ink-700 ring-1 ring-inset ring-ink-100">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </Section>
 
-    </section>
-  );
-};
+    <Section tone="muted">
+      <SectionHeader eyebrow="Our process" title="How a project comes together" />
+      <ProcessSteps />
+    </Section>
+
+    <CtaBand title="Let’s build something great together" />
+  </>
+);
 
 export default AboutPage;

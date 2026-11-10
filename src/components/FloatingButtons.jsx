@@ -1,24 +1,17 @@
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp } from 'react-icons/fa';
+import { SITE } from '../data/site';
 
-const FloatingButtons = () => {
-  const message = encodeURIComponent("Hi! I'm interested in your services.");
-  const whatsappLink = `https://wa.me/919361660714?text=${message}`;
-
-  return (
-    <>
-      {/* WhatsApp Logo – Bottom Left */}
-      <a
-        href={whatsappLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-5 left-5 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition duration-300"
-        title="Chat on WhatsApp"
-        aria-label="Chat on WhatsApp"
-      >
-        <FaWhatsapp className="text-3xl" />
-      </a>
-    </>
-  );
-};
+const FloatingButtons = () => (
+  <a
+    href={SITE.whatsappHref}
+    target="_blank"
+    rel="noopener noreferrer"
+    title="Chat on WhatsApp"
+    aria-label="Chat with RanCoTech on WhatsApp"
+    className="fixed right-5 bottom-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/15 transition-transform duration-200 hover:scale-105"
+  >
+    <FaWhatsapp size={28} aria-hidden="true" />
+  </a>
+);
 
 export default FloatingButtons;

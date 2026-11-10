@@ -1,39 +1,22 @@
 {
   "name": "rancotech-website",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^2.1.143",
-    "@react-three/drei": "^10.0.5",
-    "@react-three/fiber": "^9.1.1",
     "@tailwindcss/vite": "^4.1.2",
-    "d3": "^7.9.0",
-    "d3-geo": "^3.1.1",
-    "framer-motion": "^12.6.3",
-    "gsap": "^3.12.7",
-    "leaflet": "^1.9.4",
     "lucide-react": "^0.487.0",
     "react": "^19.0.0",
-    "react-circular-progressbar": "^2.2.0",
-    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
-    "react-globe.gl": "^2.33.2",
     "react-icons": "^5.5.0",
-    "react-intersection-observer": "^9.16.0",
-    "react-leaflet": "^5.0.0",
-    "react-parallax-tilt": "^1.7.289",
     "react-router-dom": "^7.5.0",
-    "react-scroll": "^1.9.3",
-    "react-tsparticles": "^2.12.2",
-    "tailwindcss": "^4.1.2",
-    "tsparticles": "^3.8.1"
+    "tailwindcss": "^4.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

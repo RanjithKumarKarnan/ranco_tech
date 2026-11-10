@@ -1,271 +1,192 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Use React Router Link for page navigation
-import {
-  Menu,
-  X,
-  ChevronDown,
-  ChevronUp,
-  Globe,
-  Smartphone,
-  Layers,
-  Code2,
-  Brush,
-  Figma,
-  PenTool,
-  Server,
-  ShieldCheck,
-  Mail,
-  ShoppingCart,
-  Settings,
-  Search,
-  LineChart,
-  LifeBuoy,
-  Zap,
-} from "lucide-react";
+import { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
+import { services } from '../data/services';
+import { Button, Container } from './ui';
 
-const navItems = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Services', to: '/services', dropdown: true },
+const navLinks = [
   { label: 'Projects', to: '/projects' },
-  // { label: 'Our Team', to: '/team' },
+  { label: 'About', to: '/about' },
+  { label: 'Reviews', to: '/testimonials' },
   { label: 'FAQ', to: '/faq' },
-  { label: 'Testimonial', to: '/testimonial' },
-  { label: 'Contact', to: '/contact', isButton: true },
 ];
 
-const menuData = [
-  {
-    title: "Website Development",
-    items: [
-      { icon: <Globe color="#FF6F00" />, label: "Custom Business Websites", desc: "Tailored websites for your business", to: "/servicespage#basic-website" },
-      { icon: <ShoppingCart color="#FF6F00" />, label: "E-commerce Websites", desc: "Shopify, WooCommerce, etc.", to: "/servicespage#ecommerce" },
-      { icon: <PenTool color="#FF6F00" />, label: "Portfolio Websites", desc: "Showcase your work", to: "/servicespage#basic-website" },
-      { icon: <Layers color="#FF6F00" />, label: "Landing Pages", desc: "High-converting pages", to: "/servicespage#basic-website" },
-      { icon: <Brush color="#FF6F00" />, label: "Redesign & UI Upgrades", desc: "Modernize old designs", to: "/servicespage#ui-ux" },
-    ],
-  },
-  {
-    title: "Mobile App Development",
-    items: [
-      { icon: <Smartphone color="#FF6F00" />, label: "Cross-Platform Apps", desc: "iOS & Android", to: "/servicespage#mobile-apps" },
-      { icon: <Code2 color="#FF6F00" />, label: "Custom App Solutions", desc: "Tailored builds", to: "/servicespage#mobile-apps" },
-      { icon: <Figma color="#FF6F00" />, label: "UI/UX Design", desc: "Clean interfaces", to: "/servicespage#ui-ux" },
-      { icon: <Zap color="#FF6F00" />, label: "Performance Optimization", desc: "Speed & smooth UX", to: "/servicespage#performance" },
-    ],
-  },
-  {
-    title: "IT & Software Solutions",
-    items: [
-      { icon: <Settings color="#FF6F00" />, label: "Enterprise Development", desc: "Scalable apps", to: "/servicespage#enterprise" },
-      { icon: <Code2 color="#FF6F00" />, label: "Custom Software", desc: "Fully customized", to: "/servicespage#custom-web-app" },
-      { icon: <Layers color="#FF6F00" />, label: "Admin Dashboards", desc: "Modern tools", to: "/servicespage#custom-web-app" },
-      { icon: <Server color="#FF6F00" />, label: "CRM & ERP Systems", desc: "Manage better", to: "/servicespage#enterprise" },
-    ],
-  },
-  {
-    title: "UI/UX Design",
-    items: [
-      { icon: <Figma color="#FF6F00" />, label: "Prototyping", desc: "Figma flows", to: "/servicespage#ui-ux" },
-      { icon: <Brush color="#FF6F00" />, label: "Web & App UI/UX", desc: "User-friendly", to: "/servicespage#ui-ux" },
-      { icon: <PenTool color="#FF6F00" />, label: "Branding & Logo", desc: "Visual identity", to: "/servicespage#logo" },
-    ],
-  },
-  {
-    title: "Hosting & Domain Services",
-    items: [
-      { icon: <Globe color="#FF6F00" />, label: "Domain Management", desc: "Domain registration & renewal", to: "/servicespage#domain-hosting" },
-      { icon: <Server color="#FF6F00" />, label: "Web Hosting", desc: "Shared, VPS, Dedicated", to: "/servicespage#domain-hosting" },
-      { icon: <ShieldCheck color="#FF6F00" />, label: "SSL Setup", desc: "Secure your site", to: "/servicespage#ssl" },
-      { icon: <Mail color="#FF6F00" />, label: "Email Hosting", desc: "Business emails", to: "/servicespage#domain-hosting" },
-      { icon: <Layers color="#FF6F00" />, label: "Website Migration", desc: "Seamless transfers", to: "/servicespage#domain-hosting" },
-    ],
-  },
-  {
-    title: "Digital Marketing & SEO",
-    items: [
-      { icon: <Search color="#FF6F00" />, label: "SEO", desc: "Improve rankings", to: "/servicespage#seo" },
-      { icon: <LineChart color="#FF6F00" />, label: "Performance Optimization", desc: "Better insights", to: "/servicespage#analytics" },
-      { icon: <Zap color="#FF6F00" />, label: "Speed & Core Web Vitals", desc: "Faster load times", to: "/servicespage#performance" },
-    ],
-  },
-  {
-    title: "Consulting & IT Support",
-    items: [
-      { icon: <LifeBuoy color="#FF6F00" />, label: "IT Consulting", desc: "Expert advice", to: "/servicespage#consulting" },
-      { icon: <Settings color="#FF6F00" />, label: "Maintenance", desc: "Web & App upkeep", to: "/servicespage#maintenance" },
-      { icon: <ShieldCheck color="#FF6F00" />, label: "Troubleshooting", desc: "Fix software issues", to: "/servicespage#consulting" },
-    ],
-  },
-];
+export const Logo = ({ light = false }) => (
+  <Link to="/" className="text-xl font-extrabold tracking-tight" aria-label="RanCoTech home">
+    <span className="text-accent-500">RanCo</span>
+    <span className={light ? 'text-white' : 'text-brand-700'}>Tech</span>
+  </Link>
+);
+
+const navLinkClass = ({ isActive }) =>
+  `rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${isActive ? 'text-brand-700' : 'text-ink-700 hover:text-brand-700'}`;
 
 const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
-  const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
+  const { pathname } = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const servicesRef = useRef(null);
 
-  // Function to handle closing the dropdown when a menu item is clicked
-  const handleItemClick = () => {
-    setMobileDropdownOpen(false);
-    setDesktopDropdownOpen(false);
-    setMenuOpen(false); // Close the main menu when an item is clicked in mobile view
-  };
+  // Close menus whenever the page changes
+  useEffect(() => {
+    setMobileOpen(false);
+    setServicesOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!servicesOpen) return;
+    const onPointerDown = (e) => {
+      if (!servicesRef.current?.contains(e.target)) setServicesOpen(false);
+    };
+    const onKeyDown = (e) => e.key === 'Escape' && setServicesOpen(false);
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [servicesOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
+  const isServicesActive = pathname.startsWith('/services');
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-white z-50 shadow-md font-[Montserrat]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 h-[72px] flex items-center justify-between">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        scrolled || mobileOpen ? 'border-ink-100 bg-white/90 backdrop-blur-lg' : 'border-transparent bg-white/0'
+      }`}
+    >
+      <Container className="flex h-[72px] items-center justify-between">
+        <Logo />
 
-        <Link to="/" className="text-2xl font-bold tracking-tight">
-          <span className="text-[#FF6F00]">RanCo</span>
-          <span className="text-[#0D5F53]">Tech</span>
-        </Link>
+        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+          <div
+            ref={servicesRef}
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => setServicesOpen(false)}
+          >
+            <button
+              type="button"
+              aria-expanded={servicesOpen}
+              aria-controls="services-menu"
+              onClick={() => setServicesOpen((open) => !open)}
+              className={`inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                isServicesActive ? 'text-brand-700' : 'text-ink-700 hover:text-brand-700'
+              }`}
+            >
+              Services
+              <ChevronDown size={16} className={`transition-transform ${servicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+            </button>
 
-        <nav className="hidden md:flex items-center space-x-8 font-medium text-[#0D5F53] text-sm relative">
-          {navItems.map((item, index) =>
-            item.dropdown ? (
-              <div
-                key={index}
-                className="relative"
-                onMouseEnter={() => setDesktopDropdownOpen(true)}
-                onMouseLeave={() => setDesktopDropdownOpen(false)}
-              >
-                <div className="px-2 h-[72px] flex items-center cursor-pointer">
-                  <button className="hover:text-[#FF6F00]">Services</button>
-                </div>
-                {desktopDropdownOpen && (
-                  <div className="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[min(1300px,calc(100vw-2rem))] z-50">
-                    <div className="absolute -top-4 left-0 w-full h-4"></div>
-                    <div className="bg-white shadow-2xl rounded-xl p-6 grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-h-[calc(100vh-88px)] overflow-y-auto">
-                      {menuData.map((section, i) => (
-                        <DropdownSection key={i} title={section.title} items={section.items} onItemClick={handleItemClick} />
-                      ))}
-                    </div>
-                  </div>
-                )}
+            <div
+              id="services-menu"
+              className={`absolute left-1/2 top-full w-[640px] -translate-x-1/2 pt-3 transition duration-200 ${
+                servicesOpen ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'
+              }`}
+            >
+              <div className="rounded-2xl border border-ink-100 bg-white p-3 shadow-[0_24px_48px_-16px_rgb(15_31_28/0.18)]">
+                <ul className="grid grid-cols-2 gap-1">
+                  {services.map((service) => (
+                    <li key={service.slug}>
+                      <Link
+                        to={`/services/${service.slug}`}
+                        className="flex gap-3 rounded-xl p-3 transition-colors hover:bg-ink-50"
+                      >
+                        <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+                          <service.icon size={18} strokeWidth={1.8} aria-hidden="true" />
+                        </span>
+                        <span>
+                          <span className="block text-sm font-semibold text-ink-900">{service.name}</span>
+                          <span className="mt-0.5 block text-xs leading-snug text-ink-500">{service.summary}</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <Link
+                      to="/services"
+                      className="flex h-full items-center justify-center gap-2 rounded-xl bg-ink-50 p-3 text-sm font-semibold text-brand-700 hover:bg-brand-50"
+                    >
+                      All services <ArrowRight size={16} aria-hidden="true" />
+                    </Link>
+                  </li>
+                </ul>
               </div>
-            ) : item.isButton ? (
-              <Link
-                key={index}
-                to={item.to}
-                smooth={true}
-                duration={500}
-                className="ml-4 bg-[#FF6F00] text-white rounded-full px-4 py-2 hover:bg-[#e55f00] transition"
-              >
-                {item.label} →
-              </Link>
-            ) : (
-              <Link
-                key={index}
-                to={item.to}
-                smooth={true}
-                duration={500}
-                className="hover:text-[#FF6F00] cursor-pointer"
-              >
-                {item.label}
-              </Link>
-            )
-          )}
+            </div>
+          </div>
+
+          {navLinks.map((link) => (
+            <NavLink key={link.to} to={link.to} className={navLinkClass}>
+              {link.label}
+            </NavLink>
+          ))}
         </nav>
 
-        <div className="md:hidden">
-          <button onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={28} className="text-[#0D5F53]" /> : <Menu size={28} className="text-[#0D5F53]" />}
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <Button to="/contact" variant="accent" size="md">
+              Get a free quote
+            </Button>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink-900 hover:bg-ink-50 lg:hidden"
+          >
+            {mobileOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
           </button>
         </div>
-      </div>
+      </Container>
 
-      {menuOpen && (
-        <div className="md:hidden bg-white shadow-md px-6 pt-4 pb-6 space-y-3 font-medium text-[#0D5F53] text-sm max-h-[90vh] overflow-y-auto">
-          {navItems.map((item, index) =>
-            item.dropdown ? (
-              <div key={index}>
-                <button
-                  onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-                  className="flex items-center justify-between w-full py-2 cursor-pointer"
-                >
-                  <span>{item.label}</span>
-                  {mobileDropdownOpen ? (
-                    <ChevronUp size={16} className="text-[#0D5F53]" />
-                  ) : (
-                    <ChevronDown size={16} className="text-[#0D5F53]" />
-                  )}
-                </button>
-                {mobileDropdownOpen && (
-                  <div className="mt-2 pl-3 border-l border-orange-300 space-y-2">
-                    {menuData.map((section, i) => (
-                      <div key={i}>
-                        <span className="text-xs text-gray-500 uppercase mt-3 block">{section.title}</span>
-                        {section.items.map((item, j) => (
-                          <Link
-                            key={j}
-                            to={item.to}
-                            smooth={true}
-                            duration={500}
-                            className="block text-[#0D5F53] hover:text-[#FF6F00] cursor-pointer"
-                            onClick={handleItemClick}
-                          >
-                            • {item.label}
-                          </Link>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : item.isButton ? (
-              <Link
-                key={index}
-                to={item.to}
-                smooth={true}
-                duration={500}
-                onClick={handleItemClick}
-                className="inline-block mt-2 bg-[#FF6F00] text-white rounded-full px-4 py-2 hover:bg-[#ffa733] transition"
-              >
-                {item.label} →
-              </Link>
-            ) : (
-              <Link
-                key={index}
-                to={item.to}
-                smooth={true}
-                duration={500}
-                className="block py-1 cursor-pointer"
-                onClick={handleItemClick}
-              >
-                {item.label}
-              </Link>
-            )
-          )}
+      {mobileOpen && (
+        <div id="mobile-menu" className="h-[calc(100dvh-72px)] overflow-y-auto border-t border-ink-100 bg-white lg:hidden">
+          <Container className="py-6">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-ink-500">Services</p>
+            <ul className="mb-6 grid gap-1">
+              {services.map((service) => (
+                <li key={service.slug}>
+                  <Link to={`/services/${service.slug}`} className="flex items-center gap-3 rounded-xl px-2 py-2.5 text-[15px] font-medium text-ink-900 hover:bg-ink-50">
+                    <service.icon size={18} className="text-brand-700" aria-hidden="true" />
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <ul className="mb-8 grid gap-1 border-t border-ink-100 pt-6">
+              {[{ label: 'All services', to: '/services' }, ...navLinks, { label: 'Contact', to: '/contact' }].map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="block rounded-xl px-2 py-2.5 text-[15px] font-medium text-ink-900 hover:bg-ink-50">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Button to="/contact" variant="accent" className="w-full">
+              Get a free quote
+            </Button>
+          </Container>
         </div>
       )}
     </header>
   );
 };
 
-const DropdownSection = ({ title, items, onItemClick }) => (
-  <div>
-    <h4 className="text-xs font-semibold text-gray-500 uppercase mb-3">{title}</h4>
-    {items.map(({ icon, label, desc, to }, i) => (
-      <DropdownItem key={i} icon={icon} label={label} desc={desc} to={to} onItemClick={onItemClick} />
-    ))}
-  </div>
-);
-
-const DropdownItem = ({ icon, label, desc, to, onItemClick }) => (
-  <Link
-    to={to}
-    smooth={true}
-    duration={500}
-    className="flex items-start space-x-3 py-2 hover:bg-gray-50 rounded-md px-2 transition cursor-pointer"
-    onClick={onItemClick}
-  >
-    <div className="p-2 bg-orange-100 rounded-md text-[#FF6F00]">{icon}</div>
-    <div>
-      <p className="text-sm font-semibold text-[#0D5F53]">{label}</p>
-      <p className="text-xs text-gray-500">{desc}</p>
-    </div>
-  </Link>
-);
-
 export default Header;
-
